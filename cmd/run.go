@@ -22,9 +22,9 @@ func configureAlgorithm(recorder genetic.Recorder) *genetic.GA {
 	onemax.Attach(algorithm)
 
 	// parameters
-	algorithm.Selection = &Tournament{Participant: 40, Winner: 2}
+	algorithm.Selection = &SelectBest{ParentNumber: 2}
 	algorithm.Mutation = &Flip{Frequency: 2}
-	algorithm.Crossover = &MonoPoint{ChildrenNumber: 2}
+	algorithm.Crossover = &Clone{ChildrenNumber: 2}
 	algorithm.Insertion = &Elitist{}
 
 	algorithm.Recorder = recorder

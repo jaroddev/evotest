@@ -25,7 +25,7 @@ func NewBasicConfig() *OneMax {
 		InitPopLength: 200,
 		AlleleLength:  1000,
 		Cp:            1,
-		Mp:            0.75,
+		Mp:            1,
 		MaxCycle:      4000,
 		NotUpdatedFor: -1,
 	}
