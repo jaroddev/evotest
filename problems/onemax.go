@@ -25,7 +25,7 @@ func NewBasicConfig() *OneMax {
 		InitPopLength: 200,
 		AlleleLength:  1000,
 		Cp:            1,
-		Mp:            1,
+		Mp:            0.75,
 		MaxCycle:      4000,
 		NotUpdatedFor: -1,
 	}
@@ -36,6 +36,9 @@ func (problem *OneMax) Attach(algorithm *GA) {
 	algorithm.Init = problem.Init
 	algorithm.Fit = problem.Fit
 	algorithm.Continue = problem.Continue
+
+	algorithm.Cp = problem.Cp
+	algorithm.Mp = problem.Mp
 }
 
 func (o *OneMax) Init() Population {
