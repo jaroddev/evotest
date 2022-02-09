@@ -21,6 +21,35 @@ func NewRecorder() Recorder {
 	}
 }
 
+func Merge(recorders ...Recorder) Recorder {
+	recorder := NewRecorder()
+	maxLength := 0
+
+	for index := range recorders {
+		if maxLength < len(recorders[index].Rows) {
+			maxLength = len(recorders[index].Rows)
+		}
+	}
+
+	for i := 0; i < maxLength; i++ {
+		newRow := Row{}
+		average := 0
+
+		for index := range recorders {
+			if len(recorders[index].Rows) > i {
+				newRow.BestFitness += recorders[index].Rows[i].BestFitness
+				newRow.Generation = recorders[0].Rows[i].Generation
+				average++
+			}
+		}
+
+		newRow.BestFitness /= float64(average)
+		recorder.Rows = append(recorder.Rows, newRow)
+	}
+
+	return recorder
+}
+
 func (recorder *Recorder) Record(Generation int, BestFitness float64) {
 	newRow := &Row{Generation, BestFitness}
 	recorder.Rows = append(recorder.Rows, *newRow)

@@ -2,7 +2,6 @@ package main
 
 import (
 	"math/rand"
-	"time"
 
 	. "github.com/jaroddev/evolugo/crossovers"
 	"github.com/jaroddev/evolugo/genetic"
@@ -14,13 +13,9 @@ import (
 	"github.com/jaroddev/evotest/record"
 )
 
-// basic config is best-three-clone-elitist.csv
+const filename = "seeds.txt"
 
-func main() {
-
-	// prepare 30 seeds
-	rand.Seed(time.Now().UnixNano())
-
+func configureAlgorithm(recorder genetic.Recorder) *genetic.GA {
 	algorithm := &genetic.GA{}
 
 	onemax := problems.NewBasicConfig()
@@ -32,9 +27,26 @@ func main() {
 	algorithm.Crossover = &Clone{ChildrenNumber: 2}
 	algorithm.Insertion = &Elitist{}
 
-	recorder := record.NewRecorder()
-	algorithm.Recorder = &recorder
+	algorithm.Recorder = recorder
 
-	algorithm.Run()
-	recorder.Save()
+	return algorithm
+}
+
+func main() {
+	lines := record.Read(filename)
+	seeds := record.ConvertLinesToSeeds(lines)
+	recorders := make([]record.Recorder, 0)
+
+	for _, seed := range seeds {
+		rand.Seed(seed)
+
+		recorder := record.NewRecorder()
+		algorithm := configureAlgorithm(&recorder)
+
+		algorithm.Run()
+		recorders = append(recorders, recorder)
+	}
+
+	mergedRecorder := record.Merge(recorders...)
+	mergedRecorder.Save()
 }
