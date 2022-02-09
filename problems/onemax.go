@@ -19,7 +19,7 @@ type OneMax struct {
 // No need to configure this
 func NewBasicConfig() *OneMax {
 	return &OneMax{
-		InitPopLength: 2,
+		InitPopLength: 200,
 		AlleleLength:  1000,
 		MaxCycle:      4000,
 		NotUpdatedFor: -1,

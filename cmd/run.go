@@ -22,8 +22,8 @@ func configureAlgorithm(recorder genetic.Recorder) *genetic.GA {
 	onemax.Attach(algorithm)
 
 	// parameters
-	algorithm.Mutation = &Flip{Frequency: 3}
 	algorithm.Selection = &SelectBest{ParentNumber: 2}
+	algorithm.Mutation = &Flip{Frequency: 3}
 	algorithm.Crossover = &Clone{ChildrenNumber: 2}
 	algorithm.Insertion = &Elitist{}
 
